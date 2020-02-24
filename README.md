@@ -1,4 +1,4 @@
-# hue
+# The Hue app
 
 ## Project setup
 ```
