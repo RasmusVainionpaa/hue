@@ -2,7 +2,7 @@
   <div
     class="light"
     :style="{ 'background-color': color }"
-    
+
     >
     <div class="light__name">
       <div>{{ light.name }}</div>
@@ -11,7 +11,7 @@
         @toggled="toggleLight"></Toggle>
     </div>
 
-    <Range 
+    <Range
       v-if="light.state.on"
       :value="light.state.bri"
       @range="lightBrightness">

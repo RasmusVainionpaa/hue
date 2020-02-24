@@ -7,8 +7,8 @@
     </div>
 
     <div v-else class="lightGroup">
-      <Light 
-        v-for="(light, key) in lights" 
+      <Light
+        v-for="(light, key) in lights"
         :light="light"
         @light-toggle="lightToggle"
         @light-color="lightColor"
@@ -119,7 +119,7 @@ body {
   padding-top: 30px;
 }
 
-.onboarding, 
+.onboarding,
 .lightGroup {
   width: 600px;
   margin-left: auto;
