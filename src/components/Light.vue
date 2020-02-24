@@ -49,10 +49,6 @@ export default {
 
         return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
       },
-
-      set() {
-
-      }
     }
   },
   methods: {
