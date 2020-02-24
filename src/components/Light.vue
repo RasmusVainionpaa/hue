@@ -5,7 +5,7 @@
 
     >
     <div class="light__name">
-      <div>{{ light.name }}</div>
+      <div :style="{'color': accessibleColor }">{{ light.name }}</div>
       <Toggle
         :value="light.state.on"
         @toggled="toggleLight"></Toggle>
@@ -24,6 +24,7 @@
 import Range from "./Range"
 import Toggle from "./Toggle"
 import colorConverter from 'cie-rgb-color-converter/ColorConverter';
+import {contrast} from '../color'
 
 export default {
   name: 'Light',
@@ -38,17 +39,35 @@ export default {
     Toggle
   },
   computed: {
-    color: {
+    colorInRgb: {
       get() {
-        const MIDDLE_BRIGHTNESS = 254/2;
-        let rgb = colorConverter.xyBriToRgb(
+        const MINIMUM_BRIGHTNESS = 5
+        const bri = this.light.state.bri > MINIMUM_BRIGHTNESS ?
+          this.light.state.bri : MINIMUM_BRIGHTNESS;
+
+        return colorConverter.xyBriToRgb(
           this.light.state.xy[0],
           this.light.state.xy[1],
-          MIDDLE_BRIGHTNESS
+          bri,
         );
-
-        return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+      }
+    },
+    color: {
+      get() {
+        return `rgb(
+          ${this.colorInRgb.r},
+          ${this.colorInRgb.g},
+          ${this.colorInRgb.b})`
       },
+    },
+    accessibleColor() {
+      const CONTRAST_LIMIT = 3
+      const rgbToHex = ({r, g, b}) => '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
+
+      return contrast(
+        rgbToHex(this.colorInRgb),
+        '#ffffff'
+      ) >= CONTRAST_LIMIT ? "#ffffff" : "#000000"
     }
   },
   methods: {
