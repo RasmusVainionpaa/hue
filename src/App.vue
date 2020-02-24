@@ -43,7 +43,6 @@ export default {
 
   methods: {
     connect() {
-      // get ip
       axios
         .get("https://discovery.meethue.com/")
         .then(response => (this.bridges = response.data))
@@ -69,14 +68,10 @@ export default {
                 this.hue = bridge.user(this.username);
                 localStorage.setItem("hueUser", this.username);
                 this.getLights();
-
               });
             }, 500);
           }
         });
-
-      // get username
-      // get hue user object
     },
 
     getLights() {
