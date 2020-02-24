@@ -40,7 +40,13 @@ export default {
   computed: {
     color: {
       get() {
-        let rgb = colorConverter.xyBriToRgb(this.light.state.xy[0], this.light.state.xy[1], this.light.state.bri);
+        const MIDDLE_BRIGHTNESS = 254/2;
+        let rgb = colorConverter.xyBriToRgb(
+          this.light.state.xy[0],
+          this.light.state.xy[1],
+          MIDDLE_BRIGHTNESS
+        );
+
         return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
       },
 
