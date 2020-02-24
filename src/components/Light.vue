@@ -49,10 +49,6 @@ export default {
       }
     }
   },
-  mounted() {
-    // let rgb = ColorConverter.xyBriToRgb(x ,y , brightness);
-    // console.log(this.light);
-  },
   methods: {
     toggleLight(value) {
       this.$emit('light-toggle', {
