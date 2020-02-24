@@ -77,7 +77,7 @@ export default {
 
   background: #29292b;
   transition: 1300ms ease background;
-  border-radius: 8px;
+  border-radius: 15px;
 }
 
 .light__name {
