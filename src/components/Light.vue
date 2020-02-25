@@ -2,16 +2,16 @@
   <div
     class="light"
     :style="{ 'background-color': color }"
-    
+
     >
     <div class="light__name">
-      <div>{{ light.name }}</div>
+      <div :style="{'color': accessibleColor }">{{ light.name }}</div>
       <Toggle
         :value="light.state.on"
         @toggled="toggleLight"></Toggle>
     </div>
 
-    <Range 
+    <Range
       v-if="light.state.on"
       :value="light.state.bri"
       @range="lightBrightness">
@@ -24,6 +24,7 @@
 import Range from "./Range"
 import Toggle from "./Toggle"
 import colorConverter from 'cie-rgb-color-converter/ColorConverter';
+import {contrast} from '../color'
 
 export default {
   name: 'Light',
@@ -38,20 +39,36 @@ export default {
     Toggle
   },
   computed: {
+    colorInRgb: {
+      get() {
+        const MINIMUM_BRIGHTNESS = 5
+        const bri = this.light.state.bri > MINIMUM_BRIGHTNESS ?
+          this.light.state.bri : MINIMUM_BRIGHTNESS;
+
+        return colorConverter.xyBriToRgb(
+          this.light.state.xy[0],
+          this.light.state.xy[1],
+          bri,
+        );
+      }
+    },
     color: {
       get() {
-        let rgb = colorConverter.xyBriToRgb(this.light.state.xy[0], this.light.state.xy[1], this.light.state.bri);
-        return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+        return `rgb(
+          ${this.colorInRgb.r},
+          ${this.colorInRgb.g},
+          ${this.colorInRgb.b})`
       },
+    },
+    accessibleColor() {
+      const CONTRAST_LIMIT = 3
+      const rgbToHex = ({r, g, b}) => '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
 
-      set() {
-
-      }
+      return contrast(
+        rgbToHex(this.colorInRgb),
+        '#ffffff'
+      ) >= CONTRAST_LIMIT ? "#ffffff" : "#000000"
     }
-  },
-  mounted() {
-    // let rgb = ColorConverter.xyBriToRgb(x ,y , brightness);
-    // console.log(this.light);
   },
   methods: {
     toggleLight(value) {
@@ -77,7 +94,7 @@ export default {
 
   background: #29292b;
   transition: 1300ms ease background;
-  border-radius: 8px;
+  border-radius: 15px;
 }
 
 .light__name {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input  
-      type="checkbox" 
+    <input
+      type="checkbox"
       :checked="checked" />
     <label @click="change">Toggle</label>
   </div>

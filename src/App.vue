@@ -7,8 +7,8 @@
     </div>
 
     <div v-else class="lightGroup">
-      <Light 
-        v-for="(light, key) in lights" 
+      <Light
+        v-for="(light, key) in lights"
         :light="light"
         @light-toggle="lightToggle"
         @light-color="lightColor"
@@ -43,7 +43,6 @@ export default {
 
   methods: {
     connect() {
-      // get ip
       axios
         .get("https://discovery.meethue.com/")
         .then(response => (this.bridges = response.data))
@@ -69,14 +68,10 @@ export default {
                 this.hue = bridge.user(this.username);
                 localStorage.setItem("hueUser", this.username);
                 this.getLights();
-
               });
             }, 500);
           }
         });
-
-      // get username
-      // get hue user object
     },
 
     getLights() {
@@ -124,7 +119,7 @@ body {
   padding-top: 30px;
 }
 
-.onboarding, 
+.onboarding,
 .lightGroup {
   width: 600px;
   margin-left: auto;
